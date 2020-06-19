@@ -20,7 +20,6 @@ import multiprocessing
 import time
 import sys
 import random
-
 class JSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if hasattr(obj,'to_dict'):
