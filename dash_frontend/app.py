@@ -15,7 +15,7 @@ import pandas as pd
 import os
 import dash_bootstrap_components as dbc
 
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
 
 mysql_username = os.environ['MYSQL_USER']
 mysql_password = os.environ['MYSQL_PASSWORD']
