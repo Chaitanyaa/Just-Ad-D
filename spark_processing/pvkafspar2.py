@@ -77,7 +77,7 @@ def process_row(df,epochId):
             .alias('uuid', 'document_id','timestamp','platform','geo_location','traffic_source'))
 
     # Do processing
-    
+    ds = ds.na.drop()
     # Get Top 3 Websites with high user traffic
     ds1 = ds.groupby(fn.col('document_id')) \
             .agg(
@@ -112,9 +112,9 @@ def process_row(df,epochId):
         #do nothing
         pass
     else:
-        ds1.write.jdbc(url="jdbc:mysql://54.193.71.186:3306/Project", table="page_views", mode="append", properties=db_properties)
-        ds2.write.jdbc(url="jdbc:mysql://54.193.71.186:3306/Project", table="page_views_platform", mode="append", properties=db_properties)
-        ds3.write.jdbc(url="jdbc:mysql://54.193.71.186:3306/Project", table="page_views_traffic", mode="append", properties=db_properties)
+        ds1.write.jdbc(url="jdbc:mysql://54.193.71.186:3306/Project", table="page_views", mode="overwrite", properties=db_properties)
+        ds2.write.jdbc(url="jdbc:mysql://54.193.71.186:3306/Project", table="page_views_platform", mode="overwrite", properties=db_properties)
+        ds3.write.jdbc(url="jdbc:mysql://54.193.71.186:3306/Project", table="page_views_traffic", mode="overwrite", properties=db_properties)
         pass
 
 # For Handling late and out of order data - Watermark, Window, Sliding Window

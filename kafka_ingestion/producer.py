@@ -105,11 +105,11 @@ if __name__ == '__main__':
                     record_value = jsons
                     record_key = values[6]
                     print("Producing click record: {}".format(record_key))
-                    if(i==50):
-                        i=0
-                        p.produce(topic, key=str(record_key), value=str(record_value), on_delivery=acked)
-                        print("Produced: {}".format(record_key))
-                        break
+                    # if(i==50):
+                    #     i=0
+                    p.produce(topic, key=str(record_key), value=str(record_value), on_delivery=acked)
+                        # print("Produced: {}".format(record_key))
+                        # break
                     jsons=''
-                    i=i+1
+                    # i=i+1
             p.flush()
