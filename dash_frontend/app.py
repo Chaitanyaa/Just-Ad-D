@@ -61,7 +61,15 @@ def update_graph_scatter(input_data,input_data2,n):
 
     # Creation of a Cursor object
     cursor = conn.cursor()
-    sql = "SELECT ad_id,timestamp,round((sum(clicks)/sum(views))*10,2) as ctr FROM mytopic group by ad_id,timestamp having ad_id={adid}".format(adid=input_data)
+    sql = '''
+    SELECT ad_id,
+           timestamp,
+           round((sum(clicks)/sum(views))*10,2) as ctr 
+    FROM mytopic 
+    group by ad_id,
+            timestamp 
+    having ad_id={adid}'''.format(adid=input_data)
+    
     df = pd.read_sql(sql, conn)
 
     cursor.close()
