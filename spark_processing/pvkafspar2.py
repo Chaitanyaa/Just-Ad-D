@@ -36,7 +36,7 @@ dsraw = spark \
   .readStream \
   .format("kafka") \
   .option("kafka.bootstrap.servers", "pkc-4kgmg.us-west-2.aws.confluent.cloud:9092") \
-  .option("subscribe", "hell3") \
+  .option("subscribe", "hell4") \
   .option("startingOffsets", "earliest") \
   .option("kafka.sasl.mechanism", "PLAIN") \
   .option("kafka.security.protocol", "SASL_SSL") \
@@ -73,18 +73,37 @@ def process_row(df,epochId):
             .alias("value"))
     
     # Explode JSON into columns
-    ds = df.select(fn.json_tuple('value', 'display_id', 'ad_id','clicked','uuid','timestamp','document_id','platform','geo_location') \
-            .alias('display_id', 'ad_id','clicked','uuid','timestamp','document_id','platform','geo_location'))
+    ds = df.select(fn.json_tuple('value', 'uuid', 'document_id','timestamp','platform','geo_location','traffic_source') \
+            .alias('uuid', 'document_id','timestamp','platform','geo_location','traffic_source'))
 
     # Do processing
-    ds = ds.groupby(fn.col('ad_id')) \
+    
+    # Get Top 3 Websites with high user traffic
+    ds1 = ds.groupby(fn.col('document_id')) \
             .agg(
-                fn.max(fn.col('timestamp').cast('string')),
-                fn.sum(fn.col('clicked')), 
-                fn.count(fn.col('clicked'))) \
-            .withColumnRenamed("SUM(clicked)", "clicks") \
-            .withColumnRenamed("COUNT(clicked)", "views") \
-            .withColumnRenamed("max(CAST(timestamp AS STRING))", "timestamp")
+                fn.count(fn.col('uuid')),
+                fn.max(fn.col('timestamp').cast('string'))) \
+            .withColumnRenamed("COUNT(uuid)", "users") \
+            .withColumnRenamed("max(CAST(timestamp AS STRING))", "timestamp") \
+            .orderBy(fn.col("users"), ascending=False).limit(3)
+    
+    # Get platform distribution
+    ds2 = ds.groupby(fn.col('platform')) \
+            .agg(
+                fn.count(fn.col('uuid')),
+                fn.max(fn.col('timestamp').cast('string'))) \
+            .withColumnRenamed("COUNT(uuid)", "users") \
+            .withColumnRenamed("max(CAST(timestamp AS STRING))", "timestamp") \
+            .orderBy(fn.col("users"), ascending=False)
+
+    # Get traffic distribution
+    ds3 = ds.groupby(fn.col('traffic_source')) \
+            .agg(
+                fn.count(fn.col('uuid')),
+                fn.max(fn.col('timestamp').cast('string'))) \
+            .withColumnRenamed("COUNT(uuid)", "users") \
+            .withColumnRenamed("max(CAST(timestamp AS STRING))", "timestamp") \
+            .orderBy(fn.col("users"), ascending=False)
             
     ds.printSchema()
     
@@ -93,8 +112,10 @@ def process_row(df,epochId):
         #do nothing
         pass
     else:
-        ds.write.jdbc(url="jdbc:mysql://54.193.71.186:3306/Project", table="mytopic", mode="append", properties=db_properties)
-    pass
+        ds1.write.jdbc(url="jdbc:mysql://54.193.71.186:3306/Project", table="page_views", mode="append", properties=db_properties)
+        ds2.write.jdbc(url="jdbc:mysql://54.193.71.186:3306/Project", table="page_views_platform", mode="append", properties=db_properties)
+        ds3.write.jdbc(url="jdbc:mysql://54.193.71.186:3306/Project", table="page_views_traffic", mode="append", properties=db_properties)
+        pass
 
 # For Handling late and out of order data - Watermark, Window, Sliding Window
 # dk = \

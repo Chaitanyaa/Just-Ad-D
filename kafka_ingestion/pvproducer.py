@@ -67,49 +67,27 @@ if __name__ == '__main__':
                   .format(msg.topic(), msg.partition(), msg.offset()))
     
     # Simulation for sample data.
-    pv = pd.read_csv('../../data/page_views_sample.csv')
-    pv = pv.sort_values('timestamp')
-    spv = pv.head(100)
-
-    demo = [140949,183852,292368]
-    click = [0,1]
-
+    docs = [84256324,18986917,71725490,504304,51951532,11457105,66721705,369733]
     jsons = ''
     jsonspv = ''
-    i=0
-    while(1):
-        for v in spv.itertuples():
-            j = 0
-            pstimezone = timezone('US/Pacific')
-            us_time = datetime.now(pstimezone)
-            times1 = us_time.strftime('%Y-%m-%d %H:%M:%S')
-            msgpv = {'uuid': v[1], 'document_id': v[2], 'timestamp': times1, 'platform': v[4], 'geo_location': v[5]}
-            jsonspv += json.dumps(msgpv) + "\n"
-            record_value = jsonspv
-            record_key = v[2]
-            time.sleep(1)
-            print("Producing record: {}".format(record_key))
-            # p.produce(topic, key=str(record_key), value=str(record_value), on_delivery=acked) 
-            jsonspv=''
-            if(len(adclicks_df[adclicks_df['document_id']==v[2]])>1):
-                a = adclicks_df[adclicks_df['document_id']==v[2]]
-                for values in a.itertuples():
-                    # time.sleep(0.01)
-                    if(j==20):break
-                    j=j+1
-                    pstimezone = timezone('US/Pacific')
-                    us_time = datetime.now(pstimezone)
-                    times2 = us_time.strftime('%Y-%m-%d %H:%M:%S')
-                    msg = {'display_id': values[1], 'ad_id': random.choice(demo), 'clicked': random.choice(click), 'uuid': values[4], 'timestamp': times2, 'document_id': values[6], 'platform': values[7], 'geo_location': values[8]}
-                    jsons += json.dumps(msg) + "\n"
-                    record_value = jsons
-                    record_key = values[6]
-                    print("Producing click record: {}".format(record_key))
-                    if(i==50):
-                        i=0
-                        p.produce(topic, key=str(record_key), value=str(record_value), on_delivery=acked)
-                        print("Produced: {}".format(record_key))
-                        break
-                    jsons=''
-                    i=i+1
-            p.flush()
+    i=-1
+    with open("../../data/page_views_sample.csv") as infile:
+        for line in infile:
+            i=i+1
+            if(i>1):
+                row = line.split(",")
+                pstimezone = timezone('US/Pacific')
+                us_time = datetime.now(pstimezone)
+                times1 = us_time.strftime('%Y-%m-%d %H:%M:%S')
+                msgpv = {'uuid': row[0], 'document_id': random.choice(docs), 'timestamp': times1, 'platform': row[3], 'geo_location': row[4], 'traffic_source': row[5]}
+                jsonspv+= json.dumps(msgpv) + "\n"
+                record_value = jsonspv
+                record_key = row[2]
+                time.sleep(0.01)
+                print("Producing record: {}".format(record_key))
+                if(i==50):
+                    i=0
+                    p.produce(topic, key=str(record_key), value=str(record_value), on_delivery=acked)
+                    print("Produced: {}".format(record_key))
+                jsonspv=''
+                i=i+1
