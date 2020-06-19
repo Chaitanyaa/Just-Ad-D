@@ -65,7 +65,7 @@ schema = types.StructType([
 # ds = dsraw.selectExpr("CAST(value AS STRING)")
 
 def process_row(df,epochId):
-
+    df = df.na.drop()
     df = df.selectExpr("CAST(value AS STRING)")
 
     # Explode the microbatch into rows
