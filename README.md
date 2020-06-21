@@ -25,8 +25,11 @@ For ease of deployment and to avoid gruesome network configurations with individ
 ## Workflow
 * Sample dataset is stored in an EC2 instance. 
 * In EC2, simulated messages are produced to page views and click event topics in Confluent Cloud which provides Kafka cluster as a service. 
-* The messages are consumed by Spark to process the stream of messages for counting the number of clicks and views for each advertisement within the event-time windows. 
-* Windowing and watermark usages are demonstrated to handle late and out of order data. 
+* The messages are consumed by Spark to process the stream of messages. 
+* Two main calculations:       
+Counting the number of clicks/views for each advertisement within the event-time window    
+Top 3 websites with user surge from which platform(Mobile/Tablet/Desktop) and source (Internal/Social/Search)
+* Windowing and watermark usages are demonstrated to handle late or out of order data. 
 * Each stream processed data is stored in MySQL database with timestamp.
 * The continuous update on to the dB is queried and visualized on to live dashboard built using Plotly Dash.
 
