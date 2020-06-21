@@ -6,7 +6,7 @@
 ## Table of Contents
 1. [Introduction](README.md#Introduction)
 2. [Problem Statement](README.md#ProblemStatement)
-3. [Technology Stack](README.md#TechnologyStack)
+3. [Data Pipeline](README.md#DataPipeline)
 4. [Workflow](README.md#Workflow)
 5. [Data Source](README.md#DataSource)
 
