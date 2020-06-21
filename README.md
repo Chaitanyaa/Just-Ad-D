@@ -1,7 +1,6 @@
 # Just (Ad)D : Adding Advertisements on the fly
 ![alt text](https://github.com/Chaitanyaa/Just-Ad-D/blob/master/idea.JPG)
 
-[Slides](https://docs.google.com/presentation/d/1BV4d5XMUscUyXGjHr3mTFCDx6o5Y36EkbkwR76s3cLw/edit#slide=id.p)
 
 ## Table of Contents
 1. [Introduction](README.md#Introduction)
@@ -9,6 +8,8 @@
 3. [Data Pipeline](README.md#DataPipeline)
 4. [Workflow](README.md#Workflow)
 5. [Data Source](README.md#DataSource)
+6. [Repo Structure](README.md#RepoStructure)
+7. [Slides](https://docs.google.com/presentation/d/1BV4d5XMUscUyXGjHr3mTFCDx6o5Y36EkbkwR76s3cLw/edit#slide=id.p)
 
 ## Introduction
 Just (Ad)D is a distributed streaming data pipeline for analyzing an ad performance in real-time to potentially add them onto the websites that have high user traffic.
@@ -31,3 +32,23 @@ For ease of deployment and to avoid gruesome network configurations with individ
 
 ## DataSource
 A subset of [Outbrain Click Prediction](https://www.kaggle.com/c/outbrain-click-prediction/data) Kaggle dataset
+
+## RepoStructure
+```
+Just-Ad-D/
+├── dash_frontend
+│   └── app.py
+├── kafka_clicks.sh
+├── kafka_ingestion
+│   ├── ccloud_lib.py
+│   ├── producer.py
+│   ├── pvproducer.py
+├── kafka_pv.sh
+├── LICENSE
+├── README.md
+├── sparkjob_clicks.sh
+├── sparkjob_pv.sh
+├── spark_processing
+│   ├── kafspar2.py
+│   └── pvkafspar2.py
+```
