@@ -14,7 +14,7 @@ Just (Ad)D is a distributed streaming data pipeline for analyzing an ad performa
 ## ProblemStatement
 Advertisements is all about gaining user attention, which includes targeting the right consumers, at the right times, through the right channels. Therefore, optimizing user attention to improve the conversion rates is crucial for the advertisers.
 
-## Technology stack
+## Data Pipeline
 ![alt text](https://github.com/Chaitanyaa/Just-Ad-D/blob/master/pipeline.jpg)
 
 ## Workflow
