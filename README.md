@@ -19,6 +19,8 @@ Advertisements is all about gaining user attention, which includes targeting the
 ## DataPipeline
 ![alt text](https://github.com/Chaitanyaa/Just-Ad-D/blob/master/pipeline.jpg)
 
+For ease of deployment and to avoid gruesome network configurations with individual EC2 instances, this pipeline design utilizes managed services like Confluent cloud for Kafka cluster and AWS EMR for Spark cluster.
+
 ## Workflow
 * Sample dataset is stored in an EC2 instance. 
 * In EC2, simulated messages are produced to page views and click event topics in Confluent Cloud which provides Kafka cluster as a service. 
