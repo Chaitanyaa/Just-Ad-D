@@ -6,9 +6,9 @@
 ## Table of Contents
 1. [Introduction](README.md#Introduction)
 2. [Problem Statement](README.md#Problem-Statement)
-3. [Technology Stack](README.md#Asumptions-made)
+3. [Technology Stack](README.md#Technology-Stack)
 4. [Workflow](README.md#Workflow)
-5. [Data Source](README.md#DataSource)
+5. [Data Source](README.md#Data-Source)
 
 ## Introduction
 Just (Ad)D is a distributed streaming data pipeline for analyzing an ad performance in real-time to potentially add them onto the websites that have high user traffic.
