@@ -5,10 +5,10 @@
 
 ## Table of Contents
 1. [Introduction](README.md#Introduction)
-2. [Problem Statement](README.md#Problem-Statement)
-3. [Technology Stack](README.md#Technology-Stack)
+2. [Problem Statement](README.md#ProblemStatement)
+3. [Technology Stack](README.md#TechnologyStack)
 4. [Workflow](README.md#Workflow)
-5. [Data Source](README.md#Data-Source)
+5. [Data Source](README.md#DataSource)
 
 ## Introduction
 Just (Ad)D is a distributed streaming data pipeline for analyzing an ad performance in real-time to potentially add them onto the websites that have high user traffic.
@@ -16,7 +16,7 @@ Just (Ad)D is a distributed streaming data pipeline for analyzing an ad performa
 ## ProblemStatement
 Advertisements is all about gaining user attention, which includes targeting the right consumers, at the right times, through the right channels. Therefore, optimizing user attention to improve the conversion rates is crucial for the advertisers.
 
-## Data Pipeline
+## DataPipeline
 ![alt text](https://github.com/Chaitanyaa/Just-Ad-D/blob/master/pipeline.jpg)
 
 ## Workflow
@@ -27,5 +27,5 @@ Advertisements is all about gaining user attention, which includes targeting the
 * Each stream processed data is stored in MySQL database with timestamp.
 * The continuous update on to the dB is queried and visualized on to live dashboard built using Plotly Dash.
 
-## Data Source
+## DataSource
 A subset of [Outbrain Click Prediction](https://www.kaggle.com/c/outbrain-click-prediction/data) Kaggle dataset
