@@ -1,4 +1,5 @@
 # Just (Ad)D : Adding Advertisements on the fly
+#### A Distributed Streaming Data Pipeline
 ![alt text](https://github.com/Chaitanyaa/Just-Ad-D/blob/master/idea.JPG)
 
 
