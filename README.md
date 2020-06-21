@@ -1,4 +1,6 @@
 # Just (Ad)D : Adding Advertisements on the fly
+![alt text](https://github.com/Chaitanyaa/Just-Ad-D/blob/master/idea.JPG)
+
 [Slides](https://docs.google.com/presentation/d/1BV4d5XMUscUyXGjHr3mTFCDx6o5Y36EkbkwR76s3cLw/edit#slide=id.p)
 
 ## Table of Contents
