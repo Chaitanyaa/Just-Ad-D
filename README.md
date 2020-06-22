@@ -13,6 +13,7 @@
 7. [Slides](https://docs.google.com/presentation/d/1BV4d5XMUscUyXGjHr3mTFCDx6o5Y36EkbkwR76s3cLw/edit#slide=id.p)
 
 ## Introduction
+![alt text](https://github.com/Chaitanyaa/Just-Ad-D/blob/master/Demo%20Cover.JPG)
 Just (Ad)D is a distributed streaming data pipeline for analyzing an ad performance in real-time to potentially add them onto websites that have high user traffic.
 
 ## ProblemStatement
