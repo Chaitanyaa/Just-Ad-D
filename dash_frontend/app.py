@@ -15,7 +15,7 @@ import pandas as pd
 import os
 import dash_bootstrap_components as dbc
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
+app = dash.Dash(__name__)
 
 mysql_username = os.environ['MYSQL_USER']
 mysql_password = os.environ['MYSQL_PASSWORD']
@@ -38,70 +38,91 @@ df2 = pd.read_sql(sql, conn)
 cursor.close()
 conn.close()
 
-app.layout = html.Div(
-    [
-        html.Div(
-        [
-            html.Div(children='''
-            Website Id
-            '''),
-            dcc.Input(id='webid', value='66721705', type='text',style={'width': '20%', 'display': 'inline-block', 'margin-left':'-2px'}),
-        ],style={'width': '30%', 'display': 'inline-block', 'margin-left':'50px'}),
-        html.Div(
-        [
-            html.Div(children='''
-            Advertisement Id
-            '''),
-            dcc.Input(id='input', value='140949', type='text',style={'width': '20%', 'display': 'inline-block', 'margin-left':'20px'}),
-        ],style={'width': '30%', 'display': 'inline-block', 'margin-left':'-200px'}),
-        
-        html.Div(
-        [
-            html.Div(children='''
-            Observation Interval (in mins)
-            '''),
-            dcc.Input(id='input2', value='2', type='text',style={'width': '20%', 'display': 'inline-block', 'margin-left':'20px'}),
-        ],style={'width': '30%', 'display': 'inline-block', 'margin-left':'-200px'}),
-        
-        html.Div(
-        [
-        dcc.Graph(id='live-graph', animate=True,style={'width': '50%', 'display': 'inline-block'}),
-        dcc.Interval(
-            id='graph-update',
-            n_intervals=0,
-        ),
-        html.H1(children='''Top websites with user traffic'''),
-        html.P([html.Button('Refresh', id='refresh',style={'display': 'inline-block'}),html.Button('Extend', id='extend',style={'display': 'inline-block','margin-left':'50px'})]),
-        dash_table.DataTable(
-            id='table',
-            columns=[{"name": i, "id": i} for i in df.columns],
-            data=df.to_dict('records')
-        ),
-        ],style={'width': '80%', 'display': 'inline-block', 'margin-left':'10px'}),
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-        dcc.Graph(
-        id='platform',
-        figure={
-            'data': [
-                {'x': df1['platform'], 'y': df1['users'], 'type': 'bar', 'name': 'Platform Distribution'},
-            ],
-            'layout': {
-                'title': 'Platform Distribution',
-            }
-        },style={'width': '80%', 'display': 'inline-block', 'margin-left':'10px'}),
-        
-        dcc.Graph(
-        id='traffic',
-        figure={
-            'data': [
-                {'x': df2['traffic_source'], 'y': df2['users'], 'type': 'bar', 'name': 'Platform Distribution'},
-            ],
-            'layout': {
-                'title': 'Traffic Distribution',
-            }
-        },style={'width': '80%', 'display': 'inline-block', 'margin-left':'10px'}),
-    ],style={'margin-left':'220px'}
-)
+colors = {
+    'background': '#111111',
+    'text': '#7FDBFF'
+}
+
+app.layout = html.Div([
+    html.Div([
+        html.Div([
+            html.H1(children='''Just (Ad)D''',
+            style={
+            'textAlign': 'center',
+            'color': colors['text']
+            }),
+            html.Div([
+                    html.Div(
+                    [
+                        html.Div(children='''
+                        Website Id
+                        '''),
+                        dcc.Input(id='webid', value='66721705', type='text',style={'width': '35%', 'display': 'inline-block', 'margin-left':'-2px'}),
+                    ],style={'width': '50%', 'display': 'inline-block'}),
+
+                    html.Div(
+                    [
+                        html.Div(children='''
+                        Advertisement Id
+                        '''),
+                        dcc.Input(id='input', value='140949', type='text',style={'width': '30%', 'display': 'inline-block', 'margin-left':'20px'}),
+                    ],style={'width': '50%', 'display': 'inline-block', 'margin-left':'-180px'}),
+
+                    html.Div(
+                    [
+                        html.Div(children='''
+                        Observation Interval (in mins)
+                        '''),
+                        dcc.Input(id='input2', value='2', type='text',style={'width': '30%', 'display': 'inline-block', 'margin-left':'20px'}),
+                    ],style={'width': '50%', 'display': 'inline-block','margin-left':'-120px'}),
+                ],className="row"),
+                html.Div([
+                    dcc.Graph(id='live-graph', animate=True,style={'width': '50%', 'display': 'inline-block'}),
+                    dcc.Interval(
+                        id='graph-update',
+                        n_intervals=0,
+                    ),
+                ],className="row"),
+            html.Div([
+                html.H6(children='''Top websites with user traffic'''),
+                html.P([html.Button('Refresh', id='refresh',style={'display': 'inline-block'}),html.Button('Extend', id='extend',style={'display': 'inline-block','margin-left':'50px'})]),
+                dash_table.DataTable(
+                    id='table',
+                    columns=[{"name": i, "id": i} for i in df.columns],
+                    data=df.to_dict('records'),
+                    style_data = {'text-align': 'center'}
+                ),
+            ],className="row")
+            ], className="five columns"),
+
+            html.Div([
+            html.Div([
+                
+                dcc.Graph(
+                id='platform',
+                figure={
+                    'data': [
+                        {'x': df1['platform'], 'y': df1['users'], 'type': 'bar', 'name': 'Platform Distribution'},
+                    ],
+                    'layout': {
+                        'title': 'Platform Distribution',
+                    }
+                }),
+
+                dcc.Graph(
+                    id='traffic',
+                    figure={
+                        'data': [
+                            {'x': df2['traffic_source'], 'y': df2['users'], 'type': 'bar', 'name': 'Traffic Source'},
+                        ],
+                    },style={'margin-top':'-35px'}),
+            ],className="row"),
+        ], className="five columns"),
+    ], className="row"),
+],style={'margin-left':'200px','font-size':'large'})
 
 pstimezone = timezone('US/Pacific')
 us_time = datetime.now(pstimezone)
@@ -161,7 +182,7 @@ def update_graph_scatter(input_data,input_data2,n):
                             )
                         ],
                         height= 400,
-                        width= 900,)
+                        width= 700,)
     
     return {'data': [data],'layout' : layout}
 
